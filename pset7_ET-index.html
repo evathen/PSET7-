@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>PSET7 D3 Visualization Webpage</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.1.1/d3.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,500" rel="stylesheet">
+		<style type="text/css">
+        .fontsize{font-size: 25px;}
+        body{background: lightblue !important;
+        </style>
+		</style>
+		</head>
+		<body>
+        <main role = "main" class = "container">  
+            
+            <div class = "row">
+                <h1>Visualizing Agricultural Land</h1><br>
+            </div>
+            <div class = "row">
+                <div class = "col-5">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <br><br>
+                    <p class="fw-bold fontsize">Big Data, Visualization, and Society</p> 
+                    <p> Course: <span class="fw-bold">11.154/ 11.454</span> 
+                    <p> Assignment: <span class="fw-bold">PSET7- D3 Visualization Webpage</span> 
+                    <p> Author: <span class="fw-bold">Eva Then</span> 
+                    </p>
+                </div>
+                <div class = "col-7"> 
+                    <div id="viz"></div>
+                    <p> <p class="fs-8">Data Source: World Bank</p>
+                    
+                        </p>
+                </div>
+            </div><!-- close row -->
+        </main>
+
+        </main>
+		<script type="text/javascript">
+            const agriculturedata = [
+                ["Brazil", 33.9],
+                ["Canada", 6.9],
+                ["Costa Rica", 34.5],
+                ["Denmark", 62],
+                ["Fiji", 23.3],
+                ["France", 52.4],
+                ["Greenland", .6],
+                ["Italy", 43.2],
+                ["Mali",33.8],
+                ["Netherlands",53.3]
+            ];
+
+			const width = 600; // triple width 
+			const height = 500; 
+            const marginLeft = 100; // right 100 
+            const marginTop = 50; // down 50 
+            const barHeight = 30; // change to 30 
+            const widthMultiplier = 6; // times 3 
+            const gap = 5; // change to 5 
+
+            // define svg
+            // adding the D3 visualization to the div with ID=“viz”. This is defined in the following line of code:
+			const svg = d3.select("#viz")
+                .append("svg")
+                //.attr("viewBox", "0 0 500 700")
+                //.attr("viewBox", [0, 0, width, height])
+                .attr("width", width)
+                .attr("height", height);
+			
+            // add rectangle bars
+            svg.append("g")
+                .attr("class", "rect-bars")
+            .selectAll("rect")
+                .data(agriculturedata)
+                .enter()
+                .append("rect")
+                    .attr("y", (d, i) => i * (barHeight + gap) + marginTop)
+                    .attr("x", marginLeft)
+                    .attr("width", d => d[1] * widthMultiplier)  
+                    .attr("height", barHeight)
+                    .attr("opacity", 0.7) // change opacity 
+                    .attr("fill", "green");  
+
+            // Add a group and text labels to the bars specifying country names
+            // Open Sans, weight 300, size 14, text anchor right
+            svg.append('g')
+                    .attr("class", "countries")
+            .selectAll("text")
+                .data(agriculturedata)
+                .enter()
+                .append('text')
+                    .attr("text-anchor", "end")
+                    .attr("x", marginLeft - gap)
+                    .attr("y", (d,i) => i * (barHeight + gap) + marginTop + barHeight/2 + 7)
+                    .attr("font-size","14px")
+                    .attr('font-family', '"Open Sans", sans-serif')
+                    .attr('font-weight', '300')
+                    .text(d => d[0]);
+
+            // Add a group and text labels to the bars specifying the percentage of total land per country
+            svg.append('g')
+                    .attr("class", "countries")
+            .selectAll("text")
+                .data(agriculturedata)
+                .enter()
+                .append('text')
+                    .attr("text-anchor", "start")
+                    .attr("x", d=> d[1] * widthMultiplier + marginLeft + 10)
+                    .attr("y", (d,i) => i * (barHeight + gap) + marginTop + barHeight/2 + 7)
+                    .attr("font-size","14px")
+                    .attr('font-family', '"Open Sans", sans-serif')
+                    .attr('font-weight', '300')
+                    .text(d => d[1] + '%');
+
+            // Use a CSS class for the text styling and name the class “title-styling” Use Open Sans font, weight 500, and size 18 for the title styling
+            // change size 
+            svg.append('text')
+                .classed('title-styling', true) 
+                .attr("y", (d,i) => i * (barHeight + gap) + marginTop -10)
+                .attr("x", marginLeft)
+                .attr("font-size","18px")
+                .attr('font-family', '"Open Sans", sans-serif')
+                .attr('font-weight', '500')
+                .text("Proportion of Agricultural Land 2016");
+
+
+		</script>
+    </body>
+                
+
+
+</html>
